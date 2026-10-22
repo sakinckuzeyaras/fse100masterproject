@@ -61,7 +61,6 @@ def loop():
     while True:
         dis = distance()
         print(f"Object detected at: {dis} cm")
-        vibrate_for_seconds(0.5)
 
         if dis < 20: #distance less than 20 cm
             #Once temperature sensor is implemented, have an if statement first to check temperature,
