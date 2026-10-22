@@ -5,7 +5,11 @@ import time
 TRIG = 11
 ECHO = 12
 VIBRATION_MOTOR = 16
-motor_pwm = None
+
+#vibration motor
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(VIBRATION_MOTOR, GPIO.OUT)
+motor_pwm = GPIO.PWM(VIBRATION_MOTOR, 100)
 
 
 def setup():
@@ -16,9 +20,7 @@ def setup():
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
 
-    #vibration motor
-    GPIO.setup(VIBRATION_MOTOR, GPIO.OUT)
-    motor_pwm = GPIO.PWM(VIBRATION_MOTOR, 100)
+    
 
 def distance():
     #measure and return ultrasonic sensor distance
@@ -43,6 +45,7 @@ def vibrate_for_seconds(seconds=0.5):
     GPIO.output(VIBRATION_MOTOR, GPIO.HIGH)
     time.sleep(seconds)
     GPIO.output(VIBRATION_MOTOR, GPIO.LOW)
+    time.sleep(seconds)
 
 def vibrate_at_power(power = 30):
     #Set vibration motor to certain power
@@ -58,6 +61,7 @@ def loop():
     while True:
         dis = distance()
         print(f"Object detected at: {dis} cm")
+        vibrate_for_seconds(0.5)
 
         if dis < 20: #distance less than 20 cm
             #Once temperature sensor is implemented, have an if statement first to check temperature,
