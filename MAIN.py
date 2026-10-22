@@ -96,7 +96,7 @@ def check():
     return 1
 
 def speak(text):
-    subprocess.Popen(["espeak", text], stderr=subprocess.DEVNULL)
+    subprocess.run(["espeak", text])
 
 def loop():
     #MAIN PROGRAM LOOP
@@ -116,7 +116,7 @@ def loop():
         if presses:
             if read() != None:
                 print ("Current temperature : %0.3f C" % read())
-            speak("Current Temperature is " + str(read()) + " degrees Celsius.")
+            speak(f"Current Temperature is {read():.2f} degrees Celsius.")
         time.sleep(0.05)
         
 
