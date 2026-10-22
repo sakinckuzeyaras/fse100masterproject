@@ -115,8 +115,10 @@ def loop():
         presses = check()
         if presses:
             if read() != None:
-                print ("Current temperature : %0.3f C" % read())
-            speak(f"Current Temperature is {read():.2f} degrees Celsius.")
+                temp = read()
+                print ("Current temperature : %0.3f C" % temp)
+                speak_message = f"Current Temperature is {temp:.2f} degrees Celsius."
+                speak(speak_message)
         time.sleep(0.05)
         
 
