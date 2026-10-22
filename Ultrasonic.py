@@ -77,7 +77,7 @@ def destroy():
     motor_pwm.stop()
     GPIO.cleanup()
 
-if __name__ == "main":
+if __name__ == "__main__":
     setup()
     try:
         loop()
