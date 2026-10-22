@@ -5,7 +5,7 @@ import time
 TRIG = 11
 ECHO = 12
 VIBRATION_MOTOR = 16
-motor_pwm = GPIO.PWM(VIBRATION_MOTOR, 100)
+motor_pwm = None
 
 
 def setup():
@@ -18,6 +18,7 @@ def setup():
 
     #vibration motor
     GPIO.setup(VIBRATION_MOTOR, GPIO.OUT)
+    motor_pwm = GPIO.PWM(VIBRATION_MOTOR, 100)
 
 def distance():
     #measure and return ultrasonic sensor distance
