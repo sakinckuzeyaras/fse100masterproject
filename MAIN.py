@@ -103,8 +103,6 @@ def loop():
     while True:
         dis = distance()
         print(f"Object detected at: {dis} cm")
-        if read() != None:
-            print ("Current temperature : %0.3f C" % read())
 
         if dis < 20: #distance less than 20 cm
             #Once temperature sensor is implemented, have an if statement first to check temperature,
@@ -116,6 +114,8 @@ def loop():
 
         presses = check()
         if presses:
+            if read() != None:
+                print ("Current temperature : %0.3f C" % read())
             speak("Current Temperature is " + str(read()) + " degrees Celsius.")
         time.sleep(0.05)
         
