@@ -2,10 +2,15 @@
 import RPi.GPIO as GPIO
 import time
 import os
+import subprocess
 
 TRIG = 11
 ECHO = 12
+BUTTON = 13
 VIBRATION_MOTOR = 16
+
+#for button
+DOUBLE_PRESS_WINDOW = 0.5  #seconds to wait for a second press
 
 ds18b20 = ''
 
@@ -21,6 +26,11 @@ def setup():
     #ultrasonic sensor
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
+
+    #button
+    GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    #remember presses even while the program is busy doing something else
+    GPIO.add_event_detect(BUTTON, GPIO.FALLING, bouncetime=200)
     
     #temp sensor
     global ds18b20
@@ -76,6 +86,18 @@ def read():
     temperature = temperature / 1000
     return temperature
 
+def check():
+    #returns 0 (not pressed), 1 (pressed once) or 2 (pressed twice)
+    if not GPIO.event_detected(BUTTON):
+        return 0
+    time.sleep(DOUBLE_PRESS_WINDOW)
+    if GPIO.event_detected(BUTTON):
+        return 2
+    return 1
+
+def speak(text):
+    subprocess.Popen(["espeak", text], stderr=subprocess.DEVNULL)
+
 def loop():
     #MAIN PROGRAM LOOP
     while True:
@@ -91,6 +113,11 @@ def loop():
         else:
             vibrate_at_power(0)
             stop_pwm_vibration()
+
+        presses = check()
+        if presses:
+            speak("Current Temperature is " + str(read()) + " degrees Celsius.")
+        time.sleep(0.05)
         
 
 
