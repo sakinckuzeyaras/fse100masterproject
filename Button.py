@@ -26,7 +26,7 @@ def check():
     global press_count
     if press_count == 0:
         return 0
-    if time.time() - last_pressed_time < DOUBLE_PRESS_WINDOWS:
+    if time.time() - last_pressed_time < DOUBLE_PRESS_WINDOW:
         return 0 #still 0 waiting if second press comes
     presses = min(press_count, 2)
     press_count = 0
@@ -40,7 +40,7 @@ if __name__ == "__main__":
             if presses:
                 print(f"Pressed {presses} time(s)")
             time.sleep(0.05)
-            except KeyboardInterrupt:
+    except KeyboardInterrupt:
         pass
     finally:
         GPIO.cleanup()
