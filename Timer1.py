@@ -48,6 +48,7 @@ def loop():
         if presses == 2:
             if(not is_Timer_Running):
                 start_Time = time.time()
+                is_Timer_Running = True
                 print("Timer started")
             elif(is_Timer_Running):
                 print(f"current timer time is {time.time() - start_Time}")
