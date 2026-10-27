@@ -105,9 +105,15 @@ def loop():
         print(f"Object detected at: {dis} cm")
 
         if dis < 20: #distance less than 20 cm
+            temp = read()
+            if(temp >= 43): #43): #according to google, 43 degrees C is when something begins to be "too hot to touch"
+                stop_pwm_vibration()
+                seconds = 30/temp #higher the temp means more requent the buzzes
+                vibrate_for_seconds(seconds)
             #Once temperature sensor is implemented, have an if statement first to check temperature,
             #temperature vibrations take priority to distance vibrations
-            vibrate_at_power(30) #change once confirm this works
+            else:
+                vibrate_at_power(30) #change once confirm this works
         else:
             vibrate_at_power(0)
             stop_pwm_vibration()
