@@ -48,6 +48,9 @@ def loop():
             print("1 press")
         elif(presses == 2):
             print("2 presses")
+        elif(presses == 0):
+            print("0 presses")
+            time.sleep(2)
         
 
 
