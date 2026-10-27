@@ -20,23 +20,25 @@ def setup():
 
 def check():
     #returns 0 (not pressed), 1 (pressed once) or 2 (pressed twice)
+    output = 0
     global press_Start_Time
     if not GPIO.event_detected(BUTTON):
         if(press_Start_Time != 0):    
             if((time.time() - press_Start_Time) > 1):
                 press_Start_Time = 0
-                return 1
+                output = 1
             else:
-                return 0
+                output = 0
         else: 
-            return 0
+            output = 0
     if GPIO.event_detected(BUTTON):
         press_Current_Time = time.time()
         if(press_Start_Time == 0):
             press_Start_Time = time.time()
         else:
             if((press_Current_Time - press_Start_Time) <= 0.5):
-                return 2
+                output = 2
+    return output
 
 
 def loop():
