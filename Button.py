@@ -1,4 +1,3 @@
-
 # push button
 import RPi.GPIO as GPIO
 import time
@@ -26,7 +25,7 @@ def check():
     global press_count
     if press_count == 0:
         return 0
-    if time.time() - last_pressed_time < DOUBLE_PRESS_WINDOW:
+    if time.time() - last_time_pressed < DOUBLE_PRESS_WINDOW:
         return 0 #still 0 waiting if second press comes
     presses = min(press_count, 2)
     press_count = 0
