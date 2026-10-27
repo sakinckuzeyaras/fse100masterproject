@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 import time
 
 BUTTON = 13
-DOUBLE_PRESS_WINDOW = 0.45  #seconds to wait for a second press
+DOUBLE_PRESS_WINDOW = 0.5  #seconds to wait for a second press
 
 press_count = 0;
 last_time_pressed = 0;
