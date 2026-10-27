@@ -4,10 +4,18 @@ import time
 
 BUTTON = 13
 is_Timer_Running = False
-press_Start_Time = 0
+start_Time = 0
 
 #for button
 DOUBLE_PRESS_WINDOW = 0.5  #seconds to wait for a second press
+
+press_count = 0
+last_time_pressed = 0
+
+def button_callback(channel): #callback function for what it should do when pressed
+    global press_count, last_time_pressed
+    press_count += 1
+    last_time_pressed = time.time()
 
 def setup():
     #setup GPIO board pins
@@ -20,36 +28,31 @@ def setup():
 
 def check():
     #returns 0 (not pressed), 1 (pressed once) or 2 (pressed twice)
-    output = 0
-    global press_Start_Time
-    if not GPIO.event_detected(BUTTON):
-        if(press_Start_Time != 0):    
-            if((time.time() - press_Start_Time) > 1):
-                press_Start_Time = 0
-                output = 1
-            else:
-                output = 0
-        else: 
-            output = 0
-    if GPIO.event_detected(BUTTON):
-        press_Current_Time = time.time()
-        if(press_Start_Time == 0):
-            press_Start_Time = time.time()
-        else:
-            if((press_Current_Time - press_Start_Time) <= 0.5):
-                output = 2
-    return output
+    global press_count
+    if press_count == 0:
+        return 0
+    if time.time() - last_time_pressed < DOUBLE_PRESS_WINDOW:
+        return 0 #still 0 waiting if second press comes
+    presses = min(press_count, 2)
+    press_count = 0
+    return presses
 
 
 def loop():
     #MAIN PROGRAM LOOP
     while True:
-
+        global is_Timer_Running, start_Time
         presses = check()
-        if(presses == 1):
-            print("1 press")
-        elif(presses == 2):
-            print("2 presses")
+        if presses == 1:
+            print(f"Pressed {presses} time(s)")
+        if presses == 2:
+            if(not is_Timer_Running):
+                start_Time = time.time()
+                print("Timer started")
+            elif(is_Timer_Running):
+                print(f"current timer time is {time.time() - start_Time}")
+
+        time.sleep(0.05)
         
 
 
