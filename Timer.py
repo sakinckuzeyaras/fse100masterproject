@@ -24,7 +24,7 @@ def setup():
     #button
     GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     #remember presses even while the program is busy doing something else
-    GPIO.add_event_detect(BUTTON, GPIO.FALLING, bouncetime=200)
+    GPIO.add_event_detect(BUTTON, GPIO.FALLING, callback=button_callback, bouncetime=200)
 
 def check():
     #returns 0 (not pressed), 1 (pressed once) or 2 (pressed twice)
