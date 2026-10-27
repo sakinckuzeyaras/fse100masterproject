@@ -30,7 +30,7 @@ def check():
                 return 0
         else: 
             return 0
-    elif GPIO.event_detected(BUTTON):
+    if GPIO.event_detected(BUTTON):
         press_Current_Time = time.time()
         if(press_Start_Time == 0):
             press_Start_Time = time.time()
@@ -48,9 +48,6 @@ def loop():
             print("1 press")
         elif(presses == 2):
             print("2 presses")
-        elif(presses == 0):
-            print("0 presses")
-            time.sleep(2)
         
 
 
