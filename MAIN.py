@@ -1,4 +1,5 @@
-# Main program file
+#Test for timer implementation with main code
+
 import RPi.GPIO as GPIO
 import time
 import os
@@ -6,8 +7,21 @@ import subprocess
 
 TRIG = 11
 ECHO = 12
-BUTTON = 13
+BUTTON1 = 15
+BUTTON2 = 33
 VIBRATION_MOTOR = 16
+
+is_Timer_Running = False
+start_Time = 0
+
+press_count = 0
+last_time_pressed = 0
+
+rare_flag = False
+mediumrare_flag = False
+medium_flag = False
+mediumwell_flag = False
+welldone_flag = False
 
 #for button
 DOUBLE_PRESS_WINDOW = 0.5  #seconds to wait for a second press
@@ -27,10 +41,15 @@ def setup():
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
 
-    #button
-    GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    #button1
+    GPIO.setup(BUTTON1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     #remember presses even while the program is busy doing something else
-    GPIO.add_event_detect(BUTTON, GPIO.FALLING, bouncetime=200)
+    GPIO.add_event_detect(BUTTON1, GPIO.FALLING, bouncetime=200)
+
+    #button2
+    GPIO.setup(BUTTON2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    #remember presses even while the program is busy doing something else
+    GPIO.add_event_detect(BUTTON2, GPIO.FALLING, bouncetime=200)
     
     #temp sensor
     global ds18b20
@@ -86,20 +105,57 @@ def read():
     temperature = temperature / 1000
     return temperature
 
-def check():
+def check_button1(): #button for temperature, any presses gives current temp
     #returns 0 (not pressed), 1 (pressed once) or 2 (pressed twice)
-    if not GPIO.event_detected(BUTTON):
+    if not GPIO.event_detected(BUTTON1):
         return 0
     time.sleep(DOUBLE_PRESS_WINDOW)
-    if GPIO.event_detected(BUTTON):
+    if GPIO.event_detected(BUTTON1):
+        return 2
+    return 1
+
+def check_button2(): #button for temperature, any presses gives current temp
+    #returns 0 (not pressed), 1 (pressed once) or 2 (pressed twice)
+    if not GPIO.event_detected(BUTTON2):
+        return 0
+    time.sleep(DOUBLE_PRESS_WINDOW)
+    if GPIO.event_detected(BUTTON2):
         return 2
     return 1
 
 def speak(text):
     subprocess.run(["espeak", text])
 
+def timerCheck():
+    global rare_flag, mediumrare_flag, medium_flag, mediumwell_flag, welldone_flag
+    if(is_Timer_Running):
+        timerTime = time.time() - start_Time
+        if timerTime > 180: #180
+            if rare_flag == False:
+                speak("Meat is now Rare, Flip and reset timer")
+                rare_flag = True
+        if timerTime > 240: #240
+            if mediumrare_flag == False:
+                speak("Meat is now Medium Rare, Flip and reset timer")
+                mediumrare_flag = True
+        if timerTime > 300:
+            if medium_flag == False:
+                speak("Meat is now Medium, Flip and reset timer")
+                medium_flag = True
+        if timerTime > 360:
+            if mediumwell_flag == False:
+                speak("Meat is now Medium Well, Flip and reset timer")
+                mediumwell_flag = True
+        if timerTime > 400:
+            if welldone_flag == False:
+                speak("Meat is now Well Done, Flip and reset timer")
+                welldone_flag = True
+
 def loop():
     #MAIN PROGRAM LOOP
+    global is_Timer_Running, start_Time
+    global rare_flag, mediumrare_flag, medium_flag, mediumwell_flag, welldone_flag
+
     while True:
         dis = distance()
         print(f"Object detected at: {dis} cm")
@@ -118,8 +174,27 @@ def loop():
             vibrate_at_power(0)
             stop_pwm_vibration()
 
-        presses = check()
-        if presses:
+        timerCheck()
+
+        presses1 = check_button1()
+        if presses1:
+            if read() != None:
+                if(not is_Timer_Running):
+                    start_Time = time.time()
+                    is_Timer_Running = True
+                    speak("Timer started")
+                elif(is_Timer_Running):
+                    start_Time = 0
+                    is_Timer_Running = False
+                    speak("Timer stopped")
+                    rare_flag = False
+                    mediumrare_flag = False
+                    medium_flag = False
+                    mediumwell_flag = False
+                    welldone_flag = False
+
+        presses2 = check_button2()
+        if presses2:
             if read() != None:
                 temp = read()
                 print ("Current temperature : %0.3f C" % temp)
