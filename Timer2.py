@@ -154,6 +154,7 @@ def timerCheck():
 def loop():
     #MAIN PROGRAM LOOP
     global is_Timer_Running, start_Time
+    global rare_flag, mediumrare_flag, medium_flag, mediumwell_flag, welldone_flag
 
     while True:
         dis = distance()
@@ -183,9 +184,14 @@ def loop():
                     is_Timer_Running = True
                     speak("Timer started")
                 elif(is_Timer_Running):
-                    start_Time = 0.0
+                    start_Time = 0
                     is_Timer_Running = False
                     speak("Timer stopped")
+                    rare_flag = True
+                    mediumrare_flag = True
+                    medium_flag = True
+                    mediumwell_flag = True
+                    welldone_flag = True
 
         presses2 = check_button2()
         if presses2:
