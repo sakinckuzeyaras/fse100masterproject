@@ -135,27 +135,28 @@ def speak(text):
 
 def timerCheck():
     global rare_flag, mediumrare_flag, medium_flag, mediumwell_flag, welldone_flag
-    timerTime = time.time() - start_Time
-    if timerTime > 10: #180
-        if rare_flag == False:
-            speak("Meat is now Rare, Flip and reset timer")
-            rare_flag = True
-    if timerTime > 20: #240
-        if mediumrare_flag == False:
-            speak("Meat is now Medium Rare, Flip and reset timer")
-            mediumrare_flag = True
-    if timerTime > 300:
-        if medium_flag == False:
-            speak("Meat is now Medium, Flip and reset timer")
-            medium_flag = True
-    if timerTime > 360:
-        if mediumwell_flag == False:
-            speak("Meat is now Medium Well, Flip and reset timer")
-            mediumwell_flag = True
-    if timerTime > 400:
-        if welldone_flag == False:
-            speak("Meat is now Well Done, Flip and reset timer")
-            welldone_flag = True
+    if(is_Timer_Running):
+        timerTime = time.time() - start_Time
+        if timerTime > 10: #180
+            if rare_flag == False:
+                speak("Meat is now Rare, Flip and reset timer")
+                rare_flag = True
+        if timerTime > 20: #240
+            if mediumrare_flag == False:
+                speak("Meat is now Medium Rare, Flip and reset timer")
+                mediumrare_flag = True
+        if timerTime > 300:
+            if medium_flag == False:
+                speak("Meat is now Medium, Flip and reset timer")
+                medium_flag = True
+        if timerTime > 360:
+            if mediumwell_flag == False:
+                speak("Meat is now Medium Well, Flip and reset timer")
+                mediumwell_flag = True
+        if timerTime > 400:
+            if welldone_flag == False:
+                speak("Meat is now Well Done, Flip and reset timer")
+                welldone_flag = True
 
 def loop():
     #MAIN PROGRAM LOOP
