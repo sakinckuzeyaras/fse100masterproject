@@ -8,7 +8,7 @@ import subprocess
 TRIG = 11
 ECHO = 12
 BUTTON1 = 13
-BUTTON2 = 15
+BUTTON2 = 33
 VIBRATION_MOTOR = 16
 
 is_Timer_Running = False
