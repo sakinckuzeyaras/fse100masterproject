@@ -28,11 +28,6 @@ DOUBLE_PRESS_WINDOW = 0.5  #seconds to wait for a second press
 
 ds18b20 = ''
 
-def button_callback(channel): #callback function for what it should do when pressed
-    global press_count, last_time_pressed
-    press_count += 1
-    last_time_pressed = time.time()
-
 #vibration motor
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(VIBRATION_MOTOR, GPIO.OUT)
@@ -49,7 +44,7 @@ def setup():
     #button1
     GPIO.setup(BUTTON1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     #remember presses even while the program is busy doing something else
-    GPIO.add_event_detect(BUTTON1, GPIO.FALLING, callback=button_callback, bouncetime=200)
+    GPIO.add_event_detect(BUTTON1, GPIO.FALLING, bouncetime=200)
 
     #button2
     GPIO.setup(BUTTON2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -110,16 +105,14 @@ def read():
     temperature = temperature / 1000
     return temperature
 
-def check_button1(): #button for timer, 1 press gives time, 2 presses toggles timer
+def check_button1(): #button for temperature, any presses gives current temp
     #returns 0 (not pressed), 1 (pressed once) or 2 (pressed twice)
-    global press_count
-    if press_count == 0:
+    if not GPIO.event_detected(BUTTON1):
         return 0
-    if time.time() - last_time_pressed < DOUBLE_PRESS_WINDOW:
-        return 0 #still 0 waiting if second press comes
-    presses = min(press_count, 2)
-    press_count = 0
-    return presses
+    time.sleep(DOUBLE_PRESS_WINDOW)
+    if GPIO.event_detected(BUTTON1):
+        return 2
+    return 1
 
 def check_button2(): #button for temperature, any presses gives current temp
     #returns 0 (not pressed), 1 (pressed once) or 2 (pressed twice)
@@ -183,12 +176,7 @@ def loop():
         timerCheck()
 
         presses1 = check_button1()
-        if presses1 == 1:
-            if(is_Timer_Running):
-                speak(f"Current timer time is {time.time() - start_Time}")
-            else:
-                speak("Timer is currently not running")
-        if presses1 == 2:
+        if presses1:
             if(not is_Timer_Running):
                 start_Time = time.time()
                 is_Timer_Running = True
