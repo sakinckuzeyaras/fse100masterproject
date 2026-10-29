@@ -183,7 +183,10 @@ def loop():
 
         presses1 = check_button1()
         if presses1 == 1:
-            speak(f"Current timer time is {time.time() - start_Time}")
+            if(is_Timer_Running):
+                speak(f"Current timer time is {time.time() - start_Time}")
+            else:
+                speak("Timer is currently not running")
         if presses1 == 2:
             if(not is_Timer_Running):
                 start_Time = time.time()
