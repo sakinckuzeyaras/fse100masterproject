@@ -130,11 +130,11 @@ def timerCheck():
     global rare_flag, mediumrare_flag, medium_flag, mediumwell_flag, welldone_flag
     if(is_Timer_Running):
         timerTime = time.time() - start_Time
-        if timerTime > 10: #180
+        if timerTime > 5: #180
             if rare_flag == False:
                 speak("Meat is now Rare, Flip and reset timer")
                 rare_flag = True
-        if timerTime > 20: #240
+        if timerTime > 240: #240
             if mediumrare_flag == False:
                 speak("Meat is now Medium Rare, Flip and reset timer")
                 mediumrare_flag = True
@@ -187,11 +187,11 @@ def loop():
                     start_Time = 0
                     is_Timer_Running = False
                     speak("Timer stopped")
-                    rare_flag = True
-                    mediumrare_flag = True
-                    medium_flag = True
-                    mediumwell_flag = True
-                    welldone_flag = True
+                    rare_flag = False
+                    mediumrare_flag = False
+                    medium_flag = False
+                    mediumwell_flag = False
+                    welldone_flag = False
 
         presses2 = check_button2()
         if presses2:
