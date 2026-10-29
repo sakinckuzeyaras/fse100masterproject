@@ -177,14 +177,15 @@ def loop():
 
         presses1 = check_button1()
         if presses1:
-            if(not is_Timer_Running):
-                start_Time = time.time()
-                is_Timer_Running = True
-                speak("Timer started")
-            elif(is_Timer_Running):
-                start_Time = 0.0
-                is_Timer_Running = False
-                speak("Timer stopped")
+            if read() != None:
+                if(not is_Timer_Running):
+                    start_Time = time.time()
+                    is_Timer_Running = True
+                    speak("Timer started")
+                elif(is_Timer_Running):
+                    start_Time = 0.0
+                    is_Timer_Running = False
+                    speak("Timer stopped")
 
         presses2 = check_button2()
         if presses2:
