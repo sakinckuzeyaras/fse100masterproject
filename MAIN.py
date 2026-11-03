@@ -189,8 +189,8 @@ def loop():
         else: #if the distance is greater than 20 cm, stop pwm vibration
             vibrate_at_power(0)
             stop_pwm_vibration()
-            
-        if is_Timer_Running():
+
+        if (is_Timer_Running):
             timerCheck()
 
         presses1 = check_button1() #check button 1
