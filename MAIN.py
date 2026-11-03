@@ -49,11 +49,13 @@ def setup():
     GPIO.setup(BUTTON1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     #remember presses even while the program is busy doing something else
     GPIO.add_event_detect(BUTTON1, GPIO.FALLING, bouncetime=200)
+    #ignores any signal within 200ms of pressing to avoid the button bouncing back up sending a signal
 
     #button2
     GPIO.setup(BUTTON2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     #remember presses even while the program is busy doing something else
     GPIO.add_event_detect(BUTTON2, GPIO.FALLING, bouncetime=200)
+     #ignores any signal within 200ms of pressing to avoid the button bouncing back up sending a signal
     
     #temp sensor setup
     global ds18b20
