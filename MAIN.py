@@ -150,11 +150,11 @@ def timerCheck():
     global rare_flag, mediumrare_flag, medium_flag, mediumwell_flag, welldone_flag
     if(is_Timer_Running):
         timerTime = time.time() - start_Time
-        if timerTime > 180: #3 minutes
+        if timerTime > 10: #3 minutes
             if rare_flag == False:
                 speak("Meat is now Rare, Flip and reset timer")
                 rare_flag = True
-        if timerTime > 240: #4 minutes
+        if timerTime > 20: #4 minutes
             if mediumrare_flag == False:
                 speak("Meat is now Medium Rare, Flip and reset timer")
                 mediumrare_flag = True
@@ -182,7 +182,7 @@ def loop():
 
         if dis < 20: #distance less than 20 cm
             temp = read()
-            if(temp >= 43): #43): #according to google, 43 degrees C is when something begins to be "too hot to touch"
+            if(temp >= 28): #43): #according to google, 43 degrees C is when something begins to be "too hot to touch"
                 stop_pwm_vibration()
                 seconds = 30/temp #higher the temp means more requent the buzzes
                 vibrate_for_seconds(seconds)
