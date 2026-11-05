@@ -87,9 +87,10 @@ def distance():
 #buzzing the motor at full power for a set time interval
 def vibrate_for_seconds(seconds=0.5):
     #activates vibration motor for a specified number of seconds
-    GPIO.output(VIBRATION_MOTOR, GPIO.HIGH)
+    motor_pwm.start(0)
+    motor_pwm.ChangeDutyCycle(80)
     time.sleep(seconds)
-    GPIO.output(VIBRATION_MOTOR, GPIO.LOW)
+    motor_pwm.ChangeDutyCycle(80)
     time.sleep(seconds)
 
 #This function is for the low hum at given power when 
@@ -183,7 +184,6 @@ def loop():
         if dis < 20: #distance less than 20 cm
             temp = read()
             if(temp >= 27): #43): #according to google, 43 degrees C is when something begins to be "too hot to touch"
-                stop_pwm_vibration()
                 seconds = 30/temp #higher the temp means more requent the buzzes
                 vibrate_for_seconds(seconds)
             else: #if close but not high temperature, low humm pwm
