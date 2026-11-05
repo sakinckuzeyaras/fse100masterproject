@@ -9,7 +9,7 @@ TRIG = 11 #GPIO port 17
 ECHO = 12 #GPIO port 18
 BUTTON1 = 15 #GPIO 22
 BUTTON2 = 33 #GPIO 13
-VIBRATION_MOTOR = 16 #GPIO 23
+VIBRATION_MOTOR = 38 #GPIO 20
 
 #Global variables for timer, start time 0 by default, timer running check false by default
 is_Timer_Running = False
