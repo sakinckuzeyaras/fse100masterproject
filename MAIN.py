@@ -25,8 +25,8 @@ medium_flag = False
 mediumwell_flag = False
 welldone_flag = False
 
-#for button (Somewhat redundant now since double clicks dont exist, but scared to remove just in case)
-DOUBLE_PRESS_WINDOW = 0.5  #seconds to wait for a second press
+#Legacy code for the button methods, too scared to remove cuz it still works as is :D
+DOUBLE_PRESS_WINDOW = 0.5  
 
 #variable for temperature sensor address
 ds18b20 = ''
@@ -122,7 +122,8 @@ def check_button1(): #button for timer, pressing toggles timer from off to on or
     #any return other than 0 means the button is pressed
     if not GPIO.event_detected(BUTTON1):
         return 0
-    time.sleep(DOUBLE_PRESS_WINDOW)
+    #again, double_press_window is legacy
+    time.sleep(DOUBLE_PRESS_WINDOW) 
     if GPIO.event_detected(BUTTON1):
         return 2
     return 1
@@ -131,6 +132,7 @@ def check_button2(): #button for temperature, any presses gives current temp
     #any return other than 0 means the button is pressed
     if not GPIO.event_detected(BUTTON2):
         return 0
+    #again, double_press_window is legacy
     time.sleep(DOUBLE_PRESS_WINDOW)
     if GPIO.event_detected(BUTTON2):
         return 2
