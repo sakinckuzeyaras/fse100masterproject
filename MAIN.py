@@ -90,7 +90,7 @@ def vibrate_for_seconds(seconds=0.5):
     motor_pwm.start(0)
     motor_pwm.ChangeDutyCycle(80)
     time.sleep(seconds)
-    motor_pwm.ChangeDutyCycle(80)
+    motor_pwm.ChangeDutyCycle(0)
     time.sleep(seconds)
 
 #This function is for the low hum at given power when 
