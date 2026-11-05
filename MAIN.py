@@ -25,8 +25,8 @@ medium_flag = False
 mediumwell_flag = False
 welldone_flag = False
 
-#for button (Somewhat redundant now since double clicks dont exist, but scared to remove just in case)
-DOUBLE_PRESS_WINDOW = 0.5  #seconds to wait for a second press
+#Legacy code for the button methods, too scared to remove cuz it still works as is :D
+DOUBLE_PRESS_WINDOW = 0.5  
 
 #variable for temperature sensor address
 ds18b20 = ''
@@ -123,7 +123,8 @@ def check_button1(): #button for timer, pressing toggles timer from off to on or
     #any return other than 0 means the button is pressed
     if not GPIO.event_detected(BUTTON1):
         return 0
-    time.sleep(DOUBLE_PRESS_WINDOW)
+    #again, double_press_window is legacy
+    time.sleep(DOUBLE_PRESS_WINDOW) 
     if GPIO.event_detected(BUTTON1):
         return 2
     return 1
@@ -132,6 +133,7 @@ def check_button2(): #button for temperature, any presses gives current temp
     #any return other than 0 means the button is pressed
     if not GPIO.event_detected(BUTTON2):
         return 0
+    #again, double_press_window is legacy
     time.sleep(DOUBLE_PRESS_WINDOW)
     if GPIO.event_detected(BUTTON2):
         return 2
@@ -140,7 +142,7 @@ def check_button2(): #button for temperature, any presses gives current temp
 #espeak function, subprocess means it runs that command externally basically runs the command in terminal
 #stops script until the subprocess finishes
 def speak(text):
-    subprocess.run(["espeak", 100, text])
+    subprocess.run(["espeak", text])
 
 #Function for checking the timer using various rarity flags. 
 #Basically, the timer constantly keeps increasing, when it reaches past a threshhold, we only
@@ -183,7 +185,7 @@ def loop():
 
         if dis < 20: #distance less than 20 cm
             temp = read()
-            if(temp >= 27): #43): #according to google, 43 degrees C is when something begins to be "too hot to touch"
+            if(temp >= 29.6): #43): #according to google, 43 degrees C is when something begins to be "too hot to touch"
                 seconds = 30/temp #higher the temp means more requent the buzzes
                 vibrate_for_seconds(seconds)
             else: #if close but not high temperature, low humm pwm
