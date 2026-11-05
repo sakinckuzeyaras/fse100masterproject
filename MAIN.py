@@ -182,7 +182,7 @@ def loop():
 
         if dis < 20: #distance less than 20 cm
             temp = read()
-            if(temp >= 27): #43): #according to google, 43 degrees C is when something begins to be "too hot to touch"
+            if(temp >= 29): #43): #according to google, 43 degrees C is when something begins to be "too hot to touch"
                 stop_pwm_vibration()
                 seconds = 30/temp #higher the temp means more requent the buzzes
                 vibrate_for_seconds(seconds)
