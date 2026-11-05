@@ -139,7 +139,7 @@ def check_button2(): #button for temperature, any presses gives current temp
 #espeak function, subprocess means it runs that command externally basically runs the command in terminal
 #stops script until the subprocess finishes
 def speak(text):
-    subprocess.run(["espeak", 115, text])
+    subprocess.run(["espeak", 100, text])
 
 #Function for checking the timer using various rarity flags. 
 #Basically, the timer constantly keeps increasing, when it reaches past a threshhold, we only
