@@ -204,11 +204,11 @@ def loop():
                 if(not is_Timer_Running):
                     start_Time = time.time()
                     is_Timer_Running = True
-                    speak("Timer started")
+                    speak("The Timer has been started")
                 elif(is_Timer_Running):
                     start_Time = 0
                     is_Timer_Running = False
-                    speak("Timer stopped")
+                    speak("The has been Timer stopped and reset")
                     rare_flag = False
                     mediumrare_flag = False
                     medium_flag = False
