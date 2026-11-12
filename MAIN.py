@@ -153,23 +153,23 @@ def timerCheck():
     global rare_flag, mediumrare_flag, medium_flag, mediumwell_flag, welldone_flag
     if(is_Timer_Running):
         timerTime = time.time() - start_Time
-        if timerTime > 10: #3 minutes
+        if timerTime > 10: #3 minutes in real version
             if rare_flag == False:
                 speak("The Meat is now Rare, Flip and restart timer")
                 rare_flag = True
-        if timerTime > 20: #4 minutes
+        if timerTime > 20: #4 minutes in real version
             if mediumrare_flag == False:
                 speak("The Meat is now Medium Rare, Flip and restart timer")
                 mediumrare_flag = True
-        if timerTime > 300: #5 minutes
+        if timerTime > 30: #5 minutes in real version
             if medium_flag == False:
                 speak("The Meat is now Medium, Flip and restart timer")
                 medium_flag = True
-        if timerTime > 360: #6 minutes
+        if timerTime > 40: #6 minutes in real version
             if mediumwell_flag == False:
                 speak("The Meat is now Medium Well, Flip and restart timer")
                 mediumwell_flag = True
-        if timerTime > 400: #7 minutes
+        if timerTime > 50: #7 minutes in real version
             if welldone_flag == False:
                 speak("The Meat is now Well Done, Flip and restart timer")
                 welldone_flag = True
