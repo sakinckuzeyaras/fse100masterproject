@@ -208,7 +208,7 @@ def loop():
                 elif(is_Timer_Running):
                     start_Time = 0
                     is_Timer_Running = False
-                    speak("The has been Timer stopped and reset")
+                    speak("The timer has been stopped and reset")
                     rare_flag = False
                     mediumrare_flag = False
                     medium_flag = False
